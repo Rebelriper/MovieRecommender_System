@@ -54,8 +54,8 @@ movies = pickle.load(open('artifacts/movie_name.pkl','rb'))
 similarity = pickle.load(open('artifacts/similarity.pkl','rb'))
 
 # Function to fetch movie poster
-def fetch_poster(index):
-    url = "https://www.omdbapi.com/?i={}&apikey=39c59a65".format(index)
+def fetch_poster(title):
+    url = "https://www.omdbapi.com/?t={}&apikey=39c59a65".format(title)
     response = requests.get(url)
     data = response.json()
     if 'Poster' in data:
@@ -75,7 +75,7 @@ def recommend(title):
     sim_scores = sim_scores[1:6]
     movie_indices = [i[0] for i in sim_scores]
     recommended_movies = dt['title'].iloc[movie_indices].values
-    poster_urls = [fetch_poster(dt['index'].iloc[idx]) for idx in movie_indices]  # Use movie_indices here
+    poster_urls = [fetch_poster(dt['title'].iloc[idx]) for idx in movie_indices]  # Use movie_indices here
     return recommended_movies, poster_urls
 
 # Display the movie list
